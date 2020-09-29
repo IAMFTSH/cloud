@@ -1,0 +1,8 @@
+# Project exclude paths
+/app_config/target/
+/common/target/
+/mapper/target/
+/pojo/target/
+/service/target/
+/web_api/target/
+/web_config/target/
