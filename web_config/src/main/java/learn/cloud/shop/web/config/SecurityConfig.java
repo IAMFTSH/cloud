@@ -12,8 +12,14 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author FTSH
@@ -28,6 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     AuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
     AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -38,20 +49,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.afterPropertiesSet();
 
         // 表单登录
-        httpSecurity.formLogin()
+        httpSecurity.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 // 没有登陆登录跳转请求
-                .loginPage("/users/authentication/require")
+                .loginPage(projectProperties.getWeb().getLoginPage())
                 // 处理表单登录请求url
-                .loginProcessingUrl("/login")
-                .failureUrl("/errorOfPassword.html")
+                .loginProcessingUrl(projectProperties.getWeb().getLoginProcessUrl())
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
+                .and()// 返回http对象
+                // 后面都是对记住我功能的详细配置
+                .rememberMe()
+                // 使用mysql维持用户登录状态
+                .tokenRepository(persistentTokenRepository())
+                // token有效期
+                .tokenValiditySeconds(projectProperties.getWeb().getTokenValiditySeconds())
+                // userid使用什么做为登录的逻辑
+                .userDetailsService(userDetailsService)
                 //返回上一层
                 .and()
                 // 授权配置
                 .authorizeRequests()
                 // 无需认证
-                .antMatchers("/errorOfPassword.html",projectProperties.getWeb().getLoginPage(), ProjectConstant.IMAGE_VALIDATE_CODE_CREATE_URL,"/css/**", "/users/authentication/require").permitAll()
+                .antMatchers(projectProperties.getWeb().getLoginPage(),projectProperties.getWeb().getLoginProcessUrl(), ProjectConstant.IMAGE_VALIDATE_CODE_CREATE_URL,"/css/**", "/users/authentication/require").permitAll()
                 // 所有请求
                 .anyRequest()
                 // 都需要认证
@@ -69,8 +89,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-/*
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    }*/
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+		//tokenRepositoryImpl.setCreateTableOnStartup(true);
+        tokenRepositoryImpl.setDataSource(dataSource);
+        return tokenRepositoryImpl;
+
+    }
+
 }

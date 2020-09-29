@@ -4,6 +4,9 @@ import learn.cloud.shop.response.ValidateCode;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * @author FTSH
+ */
 public class ImageValidateCode extends ValidateCode {
 	/**
 	 * 图片验证码的图片

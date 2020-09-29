@@ -7,7 +7,7 @@ package learn.cloud.shop.response;
 public class ProjectConstant {
     public final static String LOGIN_PROCESSING_URL = "/login";
 
-    public final static String LOGIN_PAGE = "/authentication/requires";
+    public final static String LOGIN_PAGE = "/users/authentication/require";
 
     public final static String IMAGE_VALIDATE_CODE_CREATE_URL="/code/image";
 

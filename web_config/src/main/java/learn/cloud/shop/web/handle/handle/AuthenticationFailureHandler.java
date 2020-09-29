@@ -34,9 +34,10 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
 		if (LoginType.JSON.equals(properties.getWeb().getLoginType())) {
 			response.setContentType("application/json;charset=utf-8");
-			//response.getWriter().write("失败处理器："+objectMapper.writeValueAsString(exception));
+			response.getWriter().write("失败处理器："+objectMapper.writeValueAsString(exception));
 
 		} else {
+			response.setCharacterEncoding("UTF-8");
 			super.onAuthenticationFailure(request, response, exception);
 		}
 	}

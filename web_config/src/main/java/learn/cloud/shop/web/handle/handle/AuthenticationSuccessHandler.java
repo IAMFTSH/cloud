@@ -35,6 +35,7 @@ public class AuthenticationSuccessHandler extends SavedRequestAwareAuthenticatio
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().write("成功处理器："+objectMapper.writeValueAsString(authentication));
 		} else if (LoginType.REDIREACT.equals(properties.getWeb().getLoginType())){
+			response.setCharacterEncoding("UTF-8");
 			super.onAuthenticationSuccess(request, response, authentication);
 		}
 	}

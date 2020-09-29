@@ -9,6 +9,7 @@
 			<legend>form authentication</legend>
 			<form action="/login" method="post">
 				<table>
+					<!--下面的id和username不能改-->
 					<tr>
 						<td><label for="username">username</label></td>
 						<td><input type="text" name="username" id="username" value="" placeholder="username" /></td>
@@ -24,6 +25,11 @@
 						<td><label for="imageValidateCode">imageValidateCode</label></td>
 						<td><input type="text" name="imageValidateCode" id="imageValidateCode" value="" placeholder="imageValidateCode" /></td>
 						<td><img  src="/code/image"></td>
+					</tr>
+					<tr >
+						<td><label for="remember-me">remember-me</label></td>
+						<td><input type="checkbox" name="remember-me" id="remember-me" checked="checked"/></td>
+						<td><span></span></td>
 					</tr>
 					<tr>
 						<td><input type="submit" name="submit" id="submit" value="submit" /></td>
