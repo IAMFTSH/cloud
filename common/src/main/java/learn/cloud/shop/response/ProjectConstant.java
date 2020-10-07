@@ -12,4 +12,10 @@ public class ProjectConstant {
     public final static String IMAGE_VALIDATE_CODE_CREATE_URL="/code/image";
 
     public final static String VALIDATE_CODE_KEY_IN_SESSION = "imageValidateCode";
+
+    public final static String SMS_LOGIN_PROCESSING_URL = "/smsLogin";
+
+    public final static String MOBILE_CODE_KEY_IN_SESSION="mobile";
+
+    public final static String SMS_CODE_KEY_IN_SESSION = "SMSCode";
 }

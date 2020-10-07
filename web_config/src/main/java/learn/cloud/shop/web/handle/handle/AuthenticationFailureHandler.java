@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
+/**
+ * @author FTSH
+ */
 @Component
 public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 

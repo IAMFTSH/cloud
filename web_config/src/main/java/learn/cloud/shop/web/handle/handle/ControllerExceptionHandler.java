@@ -38,5 +38,4 @@ public class ControllerExceptionHandler {
 		}
 		return JsonResult.error("你个垃圾",errMsg);
 	}
-
 }

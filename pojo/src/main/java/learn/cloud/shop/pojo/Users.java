@@ -1,7 +1,6 @@
 package learn.cloud.shop.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Collection;
@@ -12,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -43,6 +41,8 @@ public class Users implements Serializable, UserDetails {
     @ApiModelProperty(value = "密码随机盐")
     private String passwordSalt;
 
+    @ApiModelProperty(value = "手机号")
+    private String mobile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

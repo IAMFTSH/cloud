@@ -29,17 +29,10 @@ spring:
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
   redis:
-    database: 3
-    host: 110.43.50.227
+    host: 39.108.11.96
     port: 6379
-    password: 123456
-    timeout: 5000
-    jedis:
-      pool:
-        max-active: 1000
-        max-wait: -1
-        max-idle: 10
-        min-idle: 2
+    timeout: 30000
+    password: 123
   # activiti default configuration
   activiti:
     database-schema-update: true

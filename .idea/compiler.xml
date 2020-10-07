@@ -18,4 +18,15 @@
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="app_config" options="" />
+      <module name="common" options="" />
+      <module name="mapper" options="" />
+      <module name="pojo" options="" />
+      <module name="service" options="" />
+      <module name="web_api" options="" />
+      <module name="web_config" options="" />
+    </option>
+  </component>
 </project>

@@ -19,4 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public interface UsersService extends IService<Users>{
     public UserDetails loadUserByUsername(String s);
+    public UserDetails loadUserByMobile(String s);
+    public boolean sendSMS(String s);
 }

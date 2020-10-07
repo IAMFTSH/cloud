@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * 生成图片用的
+ * @author FTSH
  */
 @Controller
 //@RequestMapping
