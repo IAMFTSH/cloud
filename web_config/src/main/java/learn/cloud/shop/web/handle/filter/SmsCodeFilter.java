@@ -6,17 +6,11 @@ import learn.cloud.shop.response.ProjectConstant;
 import learn.cloud.shop.util.RedisUtil;
 import learn.cloud.shop.web.config.properties.ProjectProperties;
 import learn.cloud.shop.web.handle.handle.exception.ValidateCodeException;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -43,7 +37,6 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 	private ProjectProperties properties;
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
 	private Set<String> urls = new HashSet<String>();
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	private RedisUtil redisUtil;
 

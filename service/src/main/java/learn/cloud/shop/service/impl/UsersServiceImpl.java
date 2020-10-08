@@ -77,7 +77,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Override
     public boolean sendSMS(String mobile) {
-
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", "LTAI4G6u7HfYLHYjLw5x3jgb", "m8EuaQohDq1XaL66g9mNGdR5isbpA1");
         IAcsClient client = new DefaultAcsClient(profile);
 
         CommonRequest request = new CommonRequest();

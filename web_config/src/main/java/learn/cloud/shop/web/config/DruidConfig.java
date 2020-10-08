@@ -36,13 +36,13 @@ public class DruidConfig {
         bean.setInitParameters(initParameters);
         return bean;
     }
-
-    @Bean
+    //这个被搞到WebRegister中了
+/*    @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new WebStatFilter());
         bean.addUrlPatterns("/*");
         bean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return bean;
-    }
+    }*/
 }

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import learn.cloud.shop.web.config.properties.LoginType;
 import learn.cloud.shop.web.config.properties.ProjectProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,8 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 
 		} else {
 			response.setCharacterEncoding("UTF-8");
-			super.onAuthenticationFailure(request, response, exception);
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()+"\n"+ exception.getCause());
 		}
 	}
+
 }
