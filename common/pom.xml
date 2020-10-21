@@ -155,6 +155,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcpkix-jdk15on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--社交模块， 第三方授权认证 开始 -->
         <dependency>
@@ -224,5 +230,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.73</version>
         </dependency>
+
     </dependencies>
 </project>

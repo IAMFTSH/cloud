@@ -11,6 +11,7 @@ import learn.cloud.shop.web.handle.handle.AuthenticationFailureHandler;
 import learn.cloud.shop.web.handle.handle.AuthenticationSuccessHandler;
 import learn.cloud.shop.web.handle.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -42,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private DataSource dataSource;
+    @Qualifier("usersServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -51,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-
         SmsAuthenticationProcessingFilter smsAuthenticationProcessingFilter = new SmsAuthenticationProcessingFilter();
         smsAuthenticationProcessingFilter.setAuthenticationManager(super.authenticationManager());
         smsAuthenticationProcessingFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
@@ -68,10 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         smsCodeFilter.setRedisUtil(redisUtil);
         smsCodeFilter.afterPropertiesSet();
 
+
         // 表单登录
         httpSecurity
-                // 添加短信登录的provider到springsecurity容器中
-                // .authenticationProvider(smsAuthenticationProvider())
+
                 //短信验证加入过滤链中
                 .addFilterAfter(smsAuthenticationProcessingFilter, UsernamePasswordAuthenticationFilter.class)
                 // 验证码验证过滤器在用户名密码登录之前
@@ -82,6 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage(projectProperties.getWeb().getLoginPage())
                 // 处理表单登录请求url
                 .loginProcessingUrl(projectProperties.getWeb().getLoginProcessUrl())
+                .failureForwardUrl(projectProperties.getWeb().getFailLoginPage())
+                .failureUrl(projectProperties.getWeb().getFailLoginPage())
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()// 返回http对象
@@ -98,7 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 授权配置
                 .authorizeRequests()
                 // 无需认证
-                .antMatchers(ProjectConstant.SMS_LOGIN_PROCESSING_URL, projectProperties.getWeb().getLoginPage(), projectProperties.getWeb().getLoginProcessUrl(), ProjectConstant.IMAGE_VALIDATE_CODE_CREATE_URL, "/css/**", "/users/authentication/require").permitAll()
+                .antMatchers(projectProperties.getWeb().getRequireAuth(),ProjectConstant.SMS_LOGIN_PROCESSING_URL, projectProperties.getWeb().getLoginPage(), projectProperties.getWeb().getLoginProcessUrl(), ProjectConstant.IMAGE_VALIDATE_CODE_CREATE_URL, "/css/**", "/users/authentication/require").permitAll()
                 // 所有请求
                 .anyRequest()
                 // 都需要认证

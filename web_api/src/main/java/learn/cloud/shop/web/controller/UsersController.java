@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
@@ -70,7 +71,15 @@ public class UsersController {
                 redirectStrategy.sendRedirect(request, response, projectProperties.getWeb().getLoginPage());
             }
         }
-        return JsonResult.errorUnAuthentication("访问资源需要验证,你想访问的是" + url);
+        response.setCharacterEncoding("UTF-8");
+        return JsonResult.errorUnAuthentication("访问资源需要登录");
+    }
+
+    @PostMapping("/fail-login")
+    @ResponseBody
+    public JsonResult failLogin(HttpServletRequest request){
+        Exception e=(Exception)request.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
+        return JsonResult.error("登录失败",e.getMessage());
     }
 
     @GetMapping("/showInformation")
@@ -91,6 +100,8 @@ public class UsersController {
             return JsonResult.errorUnKnow("短信发送失败");
         }
     }
+
+
 }
 
 
